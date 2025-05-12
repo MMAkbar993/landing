@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
-// Main animation initialization function
+// Replace the entire initAnimations function with this improved version
 function initAnimations() {
   // Portfolio Grid Animations
   initPortfolioAnimations()
@@ -82,58 +82,21 @@ function initAnimations() {
 
   // Client Logos Animations
   initLogoAnimations()
+
+  // Add scroll event listener to check animations continuously
+  window.addEventListener("scroll", checkAllAnimations)
 }
 
-// Portfolio Grid Animations
-function initPortfolioAnimations() {
-  const portfolioItems = document.querySelectorAll(".portfolio-item")
-
-  // Initial check to see which items are in viewport
+// Add this new function to check all animations on scroll
+function checkAllAnimations() {
+  checkTimelineItems()
+  checkProcessElements()
+  checkFeatures()
+  checkLogos()
   checkPortfolioItems()
-
-  // Check which portfolio items are in viewport
-  function checkPortfolioItems() {
-    portfolioItems.forEach((item) => {
-      const rect = item.getBoundingClientRect()
-      const isInViewport =
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 && rect.bottom >= 0
-
-      if (isInViewport) {
-        item.classList.add("visible")
-      }
-    })
-  }
-
-  // Parallax effect on scroll
-  function parallaxScroll() {
-    portfolioItems.forEach((item) => {
-      if (item.classList.contains("visible")) {
-        const speed = item.getAttribute("data-speed") || 1
-        const yPos = -(window.scrollY * speed * 0.05)
-        item.style.transform = `translateY(${yPos}px)`
-      }
-    })
-  }
-
-  // Check for new items in viewport on scroll
-  window.addEventListener("scroll", () => {
-    checkPortfolioItems()
-    parallaxScroll()
-  })
-
-  // Handle hover effects
-  portfolioItems.forEach((item) => {
-    item.addEventListener("mouseenter", function () {
-      this.querySelector(".portfolio-overlay").style.transform = "translateY(0)"
-    })
-
-    item.addEventListener("mouseleave", function () {
-      this.querySelector(".portfolio-overlay").style.transform = "translateY(100%)"
-    })
-  })
 }
 
-// Project Life Cycle Timeline Animations
+// Modify the initTimelineAnimations function to reset animations when out of viewport
 function initTimelineAnimations() {
   const timelineContainers = document.querySelectorAll(".timeline-container")
 
@@ -143,47 +106,30 @@ function initTimelineAnimations() {
     container.classList.add("timeline-hidden")
   })
 
-  // Check which timeline items are in viewport
-  function checkTimelineItems() {
-    timelineContainers.forEach((container) => {
-      const rect = container.getBoundingClientRect()
-      const isInViewport =
-        rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 && rect.bottom >= 0
-
-      if (isInViewport) {
-        container.classList.add("timeline-visible")
-      }
-    })
-  }
-
-  // Parallax effect on timeline items
-  function timelineParallax() {
-    timelineContainers.forEach((container) => {
-      if (container.classList.contains("timeline-visible")) {
-        const speed = container.getAttribute("data-speed") || 1
-        const yPos = -(window.scrollY * speed * 0.02)
-
-        // Apply different transform based on left/right position
-        if (container.classList.contains("left")) {
-          container.style.transform = `translateX(${yPos}px)`
-        } else {
-          container.style.transform = `translateX(${-yPos}px)`
-        }
-      }
-    })
-  }
-
   // Initial check
   checkTimelineItems()
+}
 
-  // Check on scroll
-  window.addEventListener("scroll", () => {
-    checkTimelineItems()
-    timelineParallax()
+// Extract the checkTimelineItems function outside of initTimelineAnimations
+function checkTimelineItems() {
+  const timelineContainers = document.querySelectorAll(".timeline-container")
+
+  timelineContainers.forEach((container) => {
+    const rect = container.getBoundingClientRect()
+    const isInViewport =
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 && rect.bottom >= 0
+
+    if (isInViewport) {
+      container.classList.add("timeline-visible")
+    } else {
+      // Reset animation when out of viewport
+      container.classList.remove("timeline-visible")
+      container.classList.add("timeline-hidden")
+    }
   })
 }
 
-// Process Section Animations
+// Modify the initProcessAnimations function to reset animations
 function initProcessAnimations() {
   const processHeader = document.querySelector(".process .header")
   const comparisonCards = document.querySelectorAll(".process .card")
@@ -192,24 +138,6 @@ function initProcessAnimations() {
   if (processHeader) processHeader.classList.add("process-hidden")
   comparisonCards.forEach((card) => card.classList.add("card-hidden"))
 
-  // Check if elements are in viewport
-  function checkProcessElements() {
-    const headerRect = processHeader?.getBoundingClientRect()
-    if (headerRect && headerRect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85) {
-      processHeader.classList.add("process-visible")
-    }
-
-    comparisonCards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect()
-      if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85) {
-        // Add delay based on index
-        setTimeout(() => {
-          card.classList.add("card-visible")
-        }, index * 200)
-      }
-    })
-  }
-
   // Add floating animation to cards
   comparisonCards.forEach((card, index) => {
     card.style.animationDelay = `${index * 0.5}s`
@@ -217,9 +145,6 @@ function initProcessAnimations() {
 
   // Initial check
   checkProcessElements()
-
-  // Check on scroll
-  window.addEventListener("scroll", checkProcessElements)
 
   // Add hover effects for feature list items
   const listItems = document.querySelectorAll(".feature-list li")
@@ -235,25 +160,51 @@ function initProcessAnimations() {
   })
 }
 
-// Why Choose Us Section Animations
+// Extract the checkProcessElements function
+function checkProcessElements() {
+  const processHeader = document.querySelector(".process .header")
+  const comparisonCards = document.querySelectorAll(".process .card")
+
+  const headerRect = processHeader?.getBoundingClientRect()
+  if (headerRect) {
+    const isHeaderInViewport =
+      headerRect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 && headerRect.bottom >= 0
+
+    if (isHeaderInViewport) {
+      processHeader.classList.add("process-visible")
+      processHeader.classList.remove("process-hidden")
+    } else {
+      // Reset animation when out of viewport
+      processHeader.classList.remove("process-visible")
+      processHeader.classList.add("process-hidden")
+    }
+  }
+
+  comparisonCards.forEach((card, index) => {
+    const rect = card.getBoundingClientRect()
+    const isCardInViewport =
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 && rect.bottom >= 0
+
+    if (isCardInViewport) {
+      // Add delay based on index
+      setTimeout(() => {
+        card.classList.add("card-visible")
+        card.classList.remove("card-hidden")
+      }, index * 200)
+    } else {
+      // Reset animation when out of viewport
+      card.classList.remove("card-visible")
+      card.classList.add("card-hidden")
+    }
+  })
+}
+
+// Modify the initFeaturesAnimations function
 function initFeaturesAnimations() {
   const features = document.querySelectorAll(".feature")
 
   // Add initial classes
   features.forEach((feature) => feature.classList.add("feature-hidden"))
-
-  // Check if features are in viewport
-  function checkFeatures() {
-    features.forEach((feature, index) => {
-      const rect = feature.getBoundingClientRect()
-      if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85) {
-        // Add delay based on index
-        setTimeout(() => {
-          feature.classList.add("feature-visible")
-        }, index * 150)
-      }
-    })
-  }
 
   // Add hover effect for features
   features.forEach((feature) => {
@@ -268,30 +219,37 @@ function initFeaturesAnimations() {
 
   // Initial check
   checkFeatures()
-
-  // Check on scroll
-  window.addEventListener("scroll", checkFeatures)
 }
 
-// Client Logos Animations
+// Extract the checkFeatures function
+function checkFeatures() {
+  const features = document.querySelectorAll(".feature")
+
+  features.forEach((feature, index) => {
+    const rect = feature.getBoundingClientRect()
+    const isInViewport =
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.85 && rect.bottom >= 0
+
+    if (isInViewport) {
+      // Add delay based on index
+      setTimeout(() => {
+        feature.classList.add("feature-visible")
+        feature.classList.remove("feature-hidden")
+      }, index * 150)
+    } else {
+      // Reset animation when out of viewport
+      feature.classList.remove("feature-visible")
+      feature.classList.add("feature-hidden")
+    }
+  })
+}
+
+// Modify the initLogoAnimations function
 function initLogoAnimations() {
   const logoItems = document.querySelectorAll(".logo-item")
 
   // Add initial classes
   logoItems.forEach((logo) => logo.classList.add("logo-hidden"))
-
-  // Check if logos are in viewport
-  function checkLogos() {
-    logoItems.forEach((logo, index) => {
-      const rect = logo.getBoundingClientRect()
-      if (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9) {
-        // Add delay based on index
-        setTimeout(() => {
-          logo.classList.add("logo-visible")
-        }, index * 100)
-      }
-    })
-  }
 
   // Add floating animation to logos
   logoItems.forEach((logo, index) => {
@@ -300,9 +258,6 @@ function initLogoAnimations() {
 
   // Initial check
   checkLogos()
-
-  // Check on scroll
-  window.addEventListener("scroll", checkLogos)
 
   // Add hover effect for logos with scale
   logoItems.forEach((logo) => {
@@ -313,5 +268,78 @@ function initLogoAnimations() {
     logo.addEventListener("mouseleave", function () {
       this.classList.remove("logo-hover")
     })
+  })
+}
+
+// Extract the checkLogos function
+function checkLogos() {
+  const logoItems = document.querySelectorAll(".logo-item")
+
+  logoItems.forEach((logo, index) => {
+    const rect = logo.getBoundingClientRect()
+    const isInViewport =
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 && rect.bottom >= 0
+
+    if (isInViewport) {
+      // Add delay based on index
+      setTimeout(() => {
+        logo.classList.add("logo-visible")
+        logo.classList.remove("logo-hidden")
+      }, index * 100)
+    } else {
+      // Reset animation when out of viewport
+      logo.classList.remove("logo-visible")
+      logo.classList.add("logo-hidden")
+    }
+  })
+}
+
+// Modify the initPortfolioAnimations function
+function initPortfolioAnimations() {
+  const portfolioItems = document.querySelectorAll(".portfolio-item")
+
+  // Initial check to see which items are in viewport
+  checkPortfolioItems()
+
+  // Parallax effect on scroll
+  function parallaxScroll() {
+    portfolioItems.forEach((item) => {
+      if (item.classList.contains("visible")) {
+        const speed = item.getAttribute("data-speed") || 1
+        const yPos = -(window.scrollY * speed * 0.05)
+        item.style.transform = `translateY(${yPos}px)`
+      }
+    })
+  }
+
+  // Handle hover effects
+  portfolioItems.forEach((item) => {
+    item.addEventListener("mouseenter", function () {
+      const overlay = this.querySelector(".portfolio-overlay")
+      if (overlay) overlay.style.transform = "translateY(0)"
+    })
+
+    item.addEventListener("mouseleave", function () {
+      const overlay = this.querySelector(".portfolio-overlay")
+      if (overlay) overlay.style.transform = "translateY(100%)"
+    })
+  })
+}
+
+// Extract the checkPortfolioItems function
+function checkPortfolioItems() {
+  const portfolioItems = document.querySelectorAll(".portfolio-item")
+
+  portfolioItems.forEach((item) => {
+    const rect = item.getBoundingClientRect()
+    const isInViewport =
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.9 && rect.bottom >= 0
+
+    if (isInViewport) {
+      item.classList.add("visible")
+    } else {
+      // Reset when out of viewport
+      item.classList.remove("visible")
+    }
   })
 }
