@@ -217,7 +217,7 @@ p {
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -233,7 +233,7 @@ p {
 .hero p {
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
-  max-width: 600px;
+  max-width: 845px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -249,7 +249,7 @@ p {
   gap: 1rem;
 }
 
-.social-proof > p {
+.social-proof>p {
   font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
@@ -402,7 +402,8 @@ p {
 /* Process Section */
 .process {
   padding: 100px 0;
-  background-color: #0a0a0a; /* Darker background */
+  background-color: #0a0a0a;
+  /* Darker background */
   color: var(--light-color);
   min-height: 100vh;
   display: flex;
@@ -429,6 +430,8 @@ p {
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
+
 
 .process-visible {
   opacity: 1;
@@ -474,7 +477,8 @@ p {
 }
 
 .card {
-  background-color: #111111; /* Darker card background */
+  background-color: #111111;
+  /* Darker card background */
   border-radius: 16px;
   padding: 40px;
   width: 380px;
@@ -497,7 +501,8 @@ p {
 }
 
 .others-card {
-  transform: rotate(-5deg); /* More pronounced tilt */
+  transform: rotate(-5deg);
+  /* More pronounced tilt */
   background-color: #111111;
   border: 1px solid #222;
   z-index: 1;
@@ -625,7 +630,7 @@ p {
 /* Why Choose Us Section */
 .why-choose-us {
   padding: 100px 0;
-  background-color: var(--light-color);
+  background-color: white;
 }
 
 .why-choose-us.orange {
@@ -672,7 +677,7 @@ p {
 }
 
 .why-choose-us:not(.orange) .feature {
-  background-color: #f9f9f9;
+  background-color: var(--light-color);
   box-shadow: var(--box-shadow);
 }
 
@@ -872,7 +877,7 @@ p {
 /* Testimonials Section */
 .testimonials {
   padding: 80px 0;
-  background-color: #f9f9f9;
+  background-color: #fffaf5;
 }
 
 .section-header {
@@ -881,7 +886,7 @@ p {
 }
 
 .testimonial-row {
-  overflow: hidden;
+  /* overflow: hidden; */
   position: relative;
   margin-bottom: 30px;
 }
@@ -1248,6 +1253,7 @@ p {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -1686,4 +1692,8 @@ p {
 
 .icon-check path {
   stroke: #ff5c35;
+}
+
+.lifecycle{
+  text-align: left;
 }
