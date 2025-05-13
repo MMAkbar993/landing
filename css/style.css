@@ -402,7 +402,7 @@ p {
 /* Process Section */
 .process {
   padding: 100px 0;
-  background-color: #111111;
+  background-color: #0a0a0a; /* Darker background */
   color: var(--light-color);
   min-height: 100vh;
   display: flex;
@@ -448,7 +448,7 @@ p {
 }
 
 .process h1 {
-  font-size: 64px;
+  font-size: 55px;
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 24px;
@@ -468,19 +468,20 @@ p {
   display: flex;
   gap: 30px;
   position: relative;
-  justify-content: flex-end;
+  justify-content: center;
   width: 100%;
+  margin-top: 60px;
 }
 
 .card {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #111111; /* Darker card background */
   border-radius: 16px;
   padding: 40px;
   width: 380px;
-  backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
   transition: transform 0.5s ease, box-shadow 0.5s ease, opacity 0.8s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .card-hidden {
@@ -496,9 +497,9 @@ p {
 }
 
 .others-card {
-  transform: rotate(-2deg);
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+  transform: rotate(-5deg); /* More pronounced tilt */
+  background-color: #111111;
+  border: 1px solid #222;
   z-index: 1;
 }
 
@@ -535,11 +536,6 @@ p {
   text-transform: uppercase;
 }
 
-.feature-hover {
-  transform: translateX(5px) !important;
-  opacity: 0.9;
-}
-
 .icon-x,
 .icon-check {
   flex-shrink: 0;
@@ -571,8 +567,8 @@ p {
   transform: translateY(-2px);
 }
 
-.cta-button:active {
-  transform: translateY(0);
+.cta-button svg {
+  margin-left: 8px;
 }
 
 .process-content {
@@ -1629,9 +1625,10 @@ p {
 
 .card-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(1);
   transition: opacity 0.8s ease, transform 0.8s ease;
   animation: floatAnimation 4s ease-in-out infinite;
+  margin-right: -50px;
 }
 
 /* Feature animations */
@@ -1671,4 +1668,22 @@ p {
 
 .portfolio-item:not(.visible) {
   opacity: 0.7;
+}
+
+/* Update the icon styles to match the image */
+.icon-x circle {
+  stroke: #333;
+}
+
+.icon-x path {
+  stroke: #666;
+}
+
+.icon-check circle {
+  stroke: #ff5c35;
+  stroke-opacity: 0.3;
+}
+
+.icon-check path {
+  stroke: #ff5c35;
 }
