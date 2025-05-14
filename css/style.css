@@ -83,7 +83,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
 }
 
@@ -181,11 +181,12 @@ p {
 
 .nav-menu {
   display: flex;
-  gap: 30px;
+  gap: 35px;
 }
 
 .nav-link {
   font-weight: 600;
+  margin: 0 60px;
   transition: var(--transition);
 }
 
@@ -772,7 +773,7 @@ p {
 }
 
 .feature p {
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   line-height: 1.6;
   transition: opacity 0.3s ease;
 }
